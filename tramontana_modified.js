@@ -212,7 +212,11 @@ String.prototype.replaceAll = function (e, t) {
                         console.warn("error loading JSON", t, e)
                     }
                     var s = e.socket.url.replace(e.socket.url.slice(-5), "");
-                    if (s = s.slice(5), "x" != messageObject.m && "xm" != messageObject.m && "xt" != messageObject.m) if (console.info('::: ----\x3e received:"' + messageObject.m + '"', messageObject), "touched" != messageObject.m) if ("a" == messageObject.m) jQuery.event.trigger("a", {
+                    if (s = s.slice(5), "x" != messageObject.m && "xm" != messageObject.m && "xt" != messageObject.m) 
+                        if (console.info('::: ----\x3e received:"' + messageObject.m + '"', messageObject),
+                        "touched" != messageObject.m)
+                            if ("a" == messageObject.m)
+                                jQuery.event.trigger("a", {
                         address: s,
                         r: messageObject.r,
                         y: messageObject.y,
@@ -285,7 +289,7 @@ String.prototype.replaceAll = function (e, t) {
                         0 != messageObject.value && "0" != messageObject.value || (e.touched = !1), 0 != e.callbacks.touched ? e.callbacks.touched(s, {
                             x: messageObject.x,
                             y: messageObject.y
-                        }) : (e.touched = !0, jQuery.event.trigger("touched", {
+                        }) : (e.touched = !0, jQuery.event.trigger("touchedDown", {
                             address: s,
                             x: messageObject.x,
                             y: messageObject.y
