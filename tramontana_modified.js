@@ -164,7 +164,7 @@ String.prototype.replaceAll = function (e, t) {
         orientation: 0,
         attitude: 0,
         magnetometer: 0,
-        touched: 0,
+        touchedDown: 0,
         audiojack: 0,
         powersource: 0,
         rxembedded: 0,
@@ -177,7 +177,7 @@ String.prototype.replaceAll = function (e, t) {
         orientation: 0,
         attitude: 0,
         magnetometer: 0,
-        touched: 0,
+        touchedDown: 0,
         audiojack: 0,
         powersource: 0,
         rxembedded: 0,
@@ -188,7 +188,7 @@ String.prototype.replaceAll = function (e, t) {
         orientation: 0,
         attitude: 0,
         magnetometer: 0,
-        touched: 0,
+        touchedDown: 0,
         audiojack: 0,
         powersource: 0,
         rxembedded: 0,
@@ -214,7 +214,7 @@ String.prototype.replaceAll = function (e, t) {
                     var s = e.socket.url.replace(e.socket.url.slice(-5), "");
                     if (s = s.slice(5), "x" != messageObject.m && "xm" != messageObject.m && "xt" != messageObject.m) 
                         if (console.info('::: ----\x3e received:"' + messageObject.m + '"', messageObject),
-                        "touched" != messageObject.m)
+                        "touchedDown" != messageObject.m)
                             if ("a" == messageObject.m)
                                 jQuery.event.trigger("a", {
                         address: s,
@@ -285,17 +285,17 @@ String.prototype.replaceAll = function (e, t) {
                         }
                         jQuery.event.trigger("ldrUpdate", {address: s, v: messageObject.v})
                     }
-                    else if("touched" == messageObject.m){
-                        0 != messageObject.value && "0" != messageObject.value || (e.touched = !1), 0 != e.callbacks.touched ? e.callbacks.touched(s, {
+                    else if("touchedDown" == messageObject.m){
+                        0 != messageObject.value && "0" != messageObject.value || (e.touchedDown = !1), 0 != e.callbacks.touchedDown ? e.callbacks.touchedDown(s, {
                             x: messageObject.x,
                             y: messageObject.y
-                        }) : (e.touched = !0, jQuery.event.trigger("touchedDown", {
+                        }) : (e.touchedDown = !0, jQuery.event.trigger("touchedDown", {
                             address: s,
                             x: messageObject.x,
                             y: messageObject.y
                         }));
                         try {
-                            touched(s, messageObject.x, messageObject.y)
+                            touchedDown(s, messageObject.x, messageObject.y)
                         } catch (e) {
                         }
                     }
@@ -358,10 +358,10 @@ String.prototype.replaceAll = function (e, t) {
         e.subscribed.distance = 1, e.sendMessage('{"m":"registerDistance"}'), e.callbacks.distance = null != t ? t : 0
     }, e.releaseDistance = function () {
         e.subscribed.distance = 0, e.sendMessage('{"m":"releaseDistance"}')
-    }, e.subscribeFunctions.touched = e.subscribeTouch = function (t) {
-        e.subscribed.touched = 1, e.sendMessage('{"m":"registerTouch"}'), e.callbacks.touched = null != t ? t : 0
+    }, e.subscribeFunctions.touchedDown = e.subscribeTouch = function (t) {
+        e.subscribed.touchedDown = 1, e.sendMessage('{"m":"registerTouch"}'), e.callbacks.touchedDown = null != t ? t : 0
     }, e.releaseTouch = function () {
-        e.subscribed.touched = 0, e.sendMessage('{"m":"releaseTouch"}')
+        e.subscribed.touchedDown = 0, e.sendMessage('{"m":"releaseTouch"}')
     }, e.subscribeFunctions.attitude = e.subscribeAttitude = function (t, s) {
         e.subscribed.attitude = 1, e.sendMessage('{"m":"registerAttitude","f":"' + t + '"}'), e.callbacks.attitude = null != s ? s : 0
     }, e.releaseAttitude = function (t) {
