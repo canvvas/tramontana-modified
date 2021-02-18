@@ -289,18 +289,26 @@ String.prototype.replaceAll = function (e, t) {
                                 }
                                 jQuery.event.trigger("ldrUpdate", {address: s, v: messageObject.v})
                             } else if ("touched" == messageObject.m) {
-                                0 != messageObject.value && "0" != messageObject.value || (e.touched = !1), 0 != e.callbacks.touched ? e.callbacks.touched(s, {
+                                0 != e.callbacks.touched && e.callbacks.touched(s, {
+                                    x: messageObject.x,
+                                    y: messageObject.y})
+   /*                             0 != messageObject.value && "0" != messageObject.value || (e.touched = !1), 0 != e.callbacks.touched ? e.callbacks.touched(s, {
                                     x: messageObject.x,
                                     y: messageObject.y
                                 }) : (e.touched = !0, jQuery.event.trigger("touched", {
                                     address: s,
                                     x: messageObject.x,
                                     y: messageObject.y
-                                }));
+                                }));*/
                                 try {
                                     touched(s, messageObject.x, messageObject.y)
                                 } catch (e) {
                                 }
+                                jQuery.event.trigger("touched", {
+                                    address: s,
+                                    x: messageObject.x,
+                                    y: messageObject.y
+                                })
                             } else "error" == messageObject.m ? console.warn(messageObject.type) : "test" == messageObject.m && console.log(Date.now());
                         else jQuery.event.trigger("ping", {address: s, type: messageObject.m})
                 }, e.socket.onclose = function () {
