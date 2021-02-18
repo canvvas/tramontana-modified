@@ -164,7 +164,7 @@ String.prototype.replaceAll = function (e, t) {
         orientation: 0,
         attitude: 0,
         magnetometer: 0,
-        touchedDown: 0,
+        touched: 0,
         audiojack: 0,
         powersource: 0,
         rxembedded: 0,
@@ -177,7 +177,7 @@ String.prototype.replaceAll = function (e, t) {
         orientation: 0,
         attitude: 0,
         magnetometer: 0,
-        touchedDown: 0,
+        touched: 0,
         audiojack: 0,
         powersource: 0,
         rxembedded: 0,
@@ -188,7 +188,7 @@ String.prototype.replaceAll = function (e, t) {
         orientation: 0,
         attitude: 0,
         magnetometer: 0,
-        touchedDown: 0,
+        touched: 0,
         audiojack: 0,
         powersource: 0,
         rxembedded: 0,
@@ -212,95 +212,102 @@ String.prototype.replaceAll = function (e, t) {
                         console.warn("error loading JSON", t, e)
                     }
                     var s = e.socket.url.replace(e.socket.url.slice(-5), "");
-                    if (s = s.slice(5), "x" != messageObject.m && "xm" != messageObject.m && "xt" != messageObject.m) 
+                    if (s = s.slice(5), "x" != messageObject.m && "xm" != messageObject.m && "xt" != messageObject.m)
                         if (console.info('::: ----\x3e received:"' + messageObject.m + '"', messageObject),
-                        "touchedDown" != messageObject.m)
+                        "touched" != messageObject.m)
                             if ("a" == messageObject.m)
                                 jQuery.event.trigger("a", {
-                        address: s,
-                        r: messageObject.r,
-                        y: messageObject.y,
-                        p: messageObject.p
-                    }), 0 != e.callbacks.attitude && e.callbacks.attitude(s, {
-                        r: messageObject.r,
-                        y: messageObject.y,
-                        p: messageObject.p
-                    }); else if ("oom" == messageObject.m) jQuery.event.trigger("oom", {address: s}); else if ("rx" == messageObject.m) jQuery.event.trigger("receivedRx", {
-                        address: s,
-                        v: messageObject.v
-                    }), 0 != e.callbacks.rxembedded && e.callbacks.rxembedded(s, messageObject.v); else if ("orientationChanged" == messageObject.m) {
-                        e.orientation = messageObject.value, 0 != e.callbacks.orientation && e.callbacks.orientation(s, e.orientation);
-                        try {
-                            orientationChanged(s, e.orientation)
-                        } catch (e) {
-                        }
-                        jQuery.event.trigger("orientationChanged", {address: s, value: messageObject.value})
-                    } else if ("magnetometerUpdate" == messageObject.m) {
-                        e.magnetometer = messageObject.t, e.magnetometerIntensity = messageObject.i, 0 != e.callbacks.magnetometer && e.callbacks.magnetometer(s, e.magnetometer, e.magnetometerIntensity);
-                        try {
-                            magnetometerEvent(s, e.magnetometer, e.magnetometerIntensity)
-                        } catch (e) {
-                        }
-                        jQuery.event.trigger("magnetometerEvent", {address: s, i: messageObject.i, t: messageObject.t})
-                    } else if ("distanceChanged" == messageObject.m) {
-                        e.proximity = messageObject.proximity, 0 != e.callbacks.distance && e.callbacks.distance(s, e.proximity);
-                        try {
-                            distanceChanged(s, e.proximity)
-                        } catch (e) {
-                        }
-                        jQuery.event.trigger("distanceChanged", {address: s, p: messageObject.proximity})
-                    } else if ("audioJackChanged" == messageObject.m) {
-                        e.audiojack = messageObject.in, 0 != e.callbacks.audiojack && e.callbacks.audiojack(s, e.audiojack);
-                        try {
-                            audioJackChanged(s, e.audiojack)
-                        } catch (e) {
-                        }
-                        jQuery.event.trigger("audioJackChanged", {address: s, in: messageObject.in})
-                    } else if ("powerSourceChanged" == messageObject.m) {
-                        e.powersource = messageObject.source, 0 != e.callbacks.powersource && e.callbacks.powersource(s, e.powersource);
-                        try {
-                            powerSourceChanged(s, e.powersource)
-                        } catch (e) {
-                        }
-                        jQuery.event.trigger("powerSourceChanged", {address: s, in: messageObject.source})
-                    } else if ("batteryGet" == messageObject.m) {
-                        e.batteryLevel = messageObject.value;
-                        try {
-                            gotBatteryLevel(messageObject.value)
-                        } catch (e) {
-                        }
-                        jQuery.event.trigger("gotBatteryLevel", {address: s, batteryLevel: messageObject.value})
-                    } else if ("videoEnded" == messageObject.m) {
-                        0 != e.callbacks.videoended && e.callbacks.videoended(s);
-                        try {
-                            videoEnded()
-                        } catch (e) {
-                        }
-                        jQuery.event.trigger("videoEnded", {address: s})
-                    } else if ("btn" == messageObject.m) 0 != e.callbacks.btnsembedded && e.callbacks.btnsembedded(s, messageObject[n], messageObject[v]), jQuery.event.trigger("btnEvent", {address: s}); else if ("ldr" == messageObject.m) {
-                        0 != e.callbacks.ldrembedded && e.callbacks.ldrembedded(s, messageObject.v);
-                        try {
-                            ldrEmbeddedReceived(s, messageObject.v)
-                        } catch (e) {
-                        }
-                        jQuery.event.trigger("ldrUpdate", {address: s, v: messageObject.v})
-                    }
-                    else if("touchedDown" == messageObject.m){
-                        0 != messageObject.value && "0" != messageObject.value || (e.touchedDown = !1), 0 != e.callbacks.touchedDown ? e.callbacks.touchedDown(s, {
-                            x: messageObject.x,
-                            y: messageObject.y
-                        }) : (e.touchedDown = !0, jQuery.event.trigger("touchedDown", {
-                            address: s,
-                            x: messageObject.x,
-                            y: messageObject.y
-                        }));
-                        try {
-                            touchedDown(s, messageObject.x, messageObject.y)
-                        } catch (e) {
-                        }
-                    }
-                    else "error" == messageObject.m ? console.warn(messageObject.type) : "test" == messageObject.m && console.log(Date.now());
-                    else jQuery.event.trigger("ping", {address: s, type: messageObject.m})
+                                    address: s,
+                                    r: messageObject.r,
+                                    y: messageObject.y,
+                                    p: messageObject.p
+                                }), 0 != e.callbacks.attitude && e.callbacks.attitude(s, {
+                                    r: messageObject.r,
+                                    y: messageObject.y,
+                                    p: messageObject.p
+                                }); else if ("oom" == messageObject.m) jQuery.event.trigger("oom", {address: s}); else if ("rx" == messageObject.m) jQuery.event.trigger("receivedRx", {
+                                address: s,
+                                v: messageObject.v
+                            }), 0 != e.callbacks.rxembedded && e.callbacks.rxembedded(s, messageObject.v); else if ("orientationChanged" == messageObject.m) {
+                                e.orientation = messageObject.value, 0 != e.callbacks.orientation && e.callbacks.orientation(s, e.orientation);
+                                try {
+                                    orientationChanged(s, e.orientation)
+                                } catch (e) {
+                                }
+                                jQuery.event.trigger("orientationChanged", {address: s, value: messageObject.value})
+                            } else if ("magnetometerUpdate" == messageObject.m) {
+                                e.magnetometer = messageObject.t, e.magnetometerIntensity = messageObject.i, 0 != e.callbacks.magnetometer && e.callbacks.magnetometer(s, e.magnetometer, e.magnetometerIntensity);
+                                try {
+                                    magnetometerEvent(s, e.magnetometer, e.magnetometerIntensity)
+                                } catch (e) {
+                                }
+                                jQuery.event.trigger("magnetometerEvent", {
+                                    address: s,
+                                    i: messageObject.i,
+                                    t: messageObject.t
+                                })
+                            } else if ("distanceChanged" == messageObject.m) {
+                                e.proximity = messageObject.proximity, 0 != e.callbacks.distance && e.callbacks.distance(s, e.proximity);
+                                try {
+                                    distanceChanged(s, e.proximity)
+                                } catch (e) {
+                                }
+                                jQuery.event.trigger("distanceChanged", {address: s, p: messageObject.proximity})
+                            } else if ("audioJackChanged" == messageObject.m) {
+                                e.audiojack = messageObject.in, 0 != e.callbacks.audiojack && e.callbacks.audiojack(s, e.audiojack);
+                                try {
+                                    audioJackChanged(s, e.audiojack)
+                                } catch (e) {
+                                }
+                                jQuery.event.trigger("audioJackChanged", {address: s, in: messageObject.in})
+                            } else if ("powerSourceChanged" == messageObject.m) {
+                                e.powersource = messageObject.source, 0 != e.callbacks.powersource && e.callbacks.powersource(s, e.powersource);
+                                try {
+                                    powerSourceChanged(s, e.powersource)
+                                } catch (e) {
+                                }
+                                jQuery.event.trigger("powerSourceChanged", {address: s, in: messageObject.source})
+                            } else if ("batteryGet" == messageObject.m) {
+                                e.batteryLevel = messageObject.value;
+                                try {
+                                    gotBatteryLevel(messageObject.value)
+                                } catch (e) {
+                                }
+                                jQuery.event.trigger("gotBatteryLevel", {address: s, batteryLevel: messageObject.value})
+                            } else if ("videoEnded" == messageObject.m) {
+                                0 != e.callbacks.videoended && e.callbacks.videoended(s);
+                                try {
+                                    videoEnded()
+                                } catch (e) {
+                                }
+                                jQuery.event.trigger("videoEnded", {address: s})
+                            } else if ("btn" == messageObject.m) 0 != e.callbacks.btnsembedded && e.callbacks.btnsembedded(s, messageObject[n], messageObject[v]), jQuery.event.trigger("btnEvent", {address: s}); else if ("ldr" == messageObject.m) {
+                                0 != e.callbacks.ldrembedded && e.callbacks.ldrembedded(s, messageObject.v);
+                                try {
+                                    ldrEmbeddedReceived(s, messageObject.v)
+                                } catch (e) {
+                                }
+                                jQuery.event.trigger("ldrUpdate", {address: s, v: messageObject.v})
+                            } else if ("touched" == messageObject.m) {
+                                0 != messageObject.value && "0" != messageObject.value || (e.touched = !1), 0 != e.callbacks.touched ? e.callbacks.touched(s, {
+                                    x: messageObject.x,
+                                    y: messageObject.y
+                                }) : (e.touched = !0, jQuery.event.trigger("touched", {
+                                    address: s,
+                                    x: messageObject.x,
+                                    y: messageObject.y
+                                }));
+                                try {
+                                    touched(s, messageObject.x, messageObject.y)
+                                } catch (e) {
+                                }
+                                jQuery.event.trigger("touched", {
+                                    address: s,
+                                    x: messageObject.x,
+                                    y: messageObject.y
+                                })
+                            } else "error" == messageObject.m ? console.warn(messageObject.type) : "test" == messageObject.m && console.log(Date.now());
+                        else jQuery.event.trigger("ping", {address: s, type: messageObject.m})
                 }, e.socket.onclose = function () {
                     e.status = "CLOSED", console.warn("connection: %s", e.status, e.socket)
                 }, e.socket.onerror = function () {
@@ -358,10 +365,10 @@ String.prototype.replaceAll = function (e, t) {
         e.subscribed.distance = 1, e.sendMessage('{"m":"registerDistance"}'), e.callbacks.distance = null != t ? t : 0
     }, e.releaseDistance = function () {
         e.subscribed.distance = 0, e.sendMessage('{"m":"releaseDistance"}')
-    }, e.subscribeFunctions.touchedDown = e.subscribeTouch = function (t) {
-        e.subscribed.touchedDown = 1, e.sendMessage('{"m":"registerTouch"}'), e.callbacks.touchedDown = null != t ? t : 0
+    }, e.subscribeFunctions.touched = e.subscribeTouch = function (t) {
+        e.subscribed.touched = 1, e.sendMessage('{"m":"registerTouch"}'), e.callbacks.touched = null != t ? t : 0
     }, e.releaseTouch = function () {
-        e.subscribed.touchedDown = 0, e.sendMessage('{"m":"releaseTouch"}')
+        e.subscribed.touched = 0, e.sendMessage('{"m":"releaseTouch"}')
     }, e.subscribeFunctions.attitude = e.subscribeAttitude = function (t, s) {
         e.subscribed.attitude = 1, e.sendMessage('{"m":"registerAttitude","f":"' + t + '"}'), e.callbacks.attitude = null != s ? s : 0
     }, e.releaseAttitude = function (t) {
